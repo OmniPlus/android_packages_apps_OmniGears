@@ -1,0 +1,133 @@
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/lockscreen_notifications"
+    xmlns:settings="http://schemas.android.com/apk/res/com.android.settings">
+
+        <SwitchPreference
+            android:key="lockscreen_notifications"
+            android:title="@string/lockscreen_notifications_enable"
+            android:persistent="false" />
+
+        <org.omnirom.omnigears.preference.SystemCheckBoxPreference
+            android:key="lockscreen_notifications_show_non_clearable"
+            android:title="@string/show_non_clearable"
+            android:summary="@string/show_non_clearable_summary"
+            android:dependency="lockscreen_notifications"
+            android:defaultValue="true" />
+
+        <org.omnirom.omnigears.preference.SystemCheckBoxPreference
+            android:key="lockscreen_notifications_dismiss_all"
+            android:title="@string/dismiss_all"
+            android:summary="@string/dismiss_all_summary"
+            android:dependency="lockscreen_notifications_show_non_clearable"
+            android:defaultValue="true" />
+
+        <org.omnirom.omnigears.preference.SystemCheckBoxPreference
+            android:key="lockscreen_notifications_dismiss_notification"
+            android:title="@string/dismiss_notification"
+            android:summary="@string/dismiss_notification_summary"
+            android:dependency="lockscreen_notifications"
+            android:defaultValue="true" />
+
+        <org.omnirom.omnigears.preference.SystemCheckBoxPreference
+            android:key="lockscreen_notifications_hide_low_priority"
+            android:title="@string/hide_low_priority"
+            android:summary="@string/hide_low_priority_summary"
+            android:dependency="lockscreen_notifications"
+            android:defaultValue="false" />
+
+        <org.omnirom.omnigears.chameleonos.AppMultiSelectListPreference
+            android:key="included_apps"
+            android:title="@string/included_apps_title"
+            android:summary="@string/included_apps_summary"
+            android:dependency="lockscreen_notifications_hide_low_priority"
+            android:persistent="false" />
+
+        <org.omnirom.omnigears.chameleonos.AppMultiSelectListPreference
+            android:key="excluded_apps"
+            android:title="@string/excluded_apps_title"
+            android:summary="@string/excluded_apps_summary"
+            android:dependency="lockscreen_notifications"
+            android:persistent="false" />
+
+    <PreferenceCategory
+        android:title="@string/proximity_sensor" >
+        <org.omnirom.omnigears.preference.SystemCheckBoxPreference
+            android:key="lockscreen_notifications_pocket_mode"
+            android:title="@string/pocket_mode"
+            android:summary="@string/pocket_mode_summary"
+            android:dependency="lockscreen_notifications"
+            android:defaultValue="false" />
+
+        <org.omnirom.omnigears.preference.SystemCheckBoxPreference
+            android:key="lockscreen_notifications_show_always"
+            android:title="@string/show_always"
+            android:summary="@string/show_always_summary"
+            android:dependency="lockscreen_notifications_pocket_mode"
+            android:defaultValue="false" />
+
+        <org.omnirom.omnigears.preference.SystemCheckBoxPreference
+            android:key="lockscreen_notifications_wake_on_notification"
+            android:title="@string/wake_on_notification"
+            android:summary="@string/wake_on_notification_summary"
+            android:dependency="lockscreen_notifications"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/layout" >
+        <org.omnirom.omnigears.preference.SystemCheckBoxPreference
+            android:key="lockscreen_notifications_dynamic_width"
+            android:title="@string/dynamic_width"
+            android:dependency="lockscreen_notifications"
+            android:summary="@string/dynamic_width_summary"
+            android:defaultValue="false" />
+
+        <org.omnirom.omnigears.chameleonos.SeekBarPreference
+            android:key="offset_top"
+            android:title="@string/offset_top"
+            android:summary="@string/offset_top_summary"
+            android:max="100"
+            android:defaultValue="30"
+            settings:unitsRight="%"
+            android:dependency="lockscreen_notifications"
+            android:persistent="false" />
+
+        <org.omnirom.omnigears.preference.NumberPickerPreference
+            android:key="notifications_height"
+            android:dialogMessage="@string/notifications_height"
+            android:title="@string/notifications_height"
+            android:summary="@string/notifications_height_summary"
+            android:dependency="lockscreen_notifications"
+            android:persistent="false" />
+
+        <org.omnirom.omnigears.preference.ColorPickerPreference
+            android:key="notification_color"
+            android:title="@string/notification_color"
+            android:dependency="lockscreen_notifications"
+            android:persistent="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/privacy" >
+        <CheckBoxPreference
+            android:key="privacy_mode"
+            android:title="@string/privacy_mode"
+            android:summary="@string/privacy_mode_summary"
+            android:dependency="lockscreen_notifications"
+            android:persistent="false" />
+
+        <org.omnirom.omnigears.preference.SystemCheckBoxPreference
+            android:key="lockscreen_notifications_expanded_view"
+            android:title="@string/expanded_view"
+            android:summary="@string/expanded_view_summary"
+            android:defaultValue="true" />
+
+        <org.omnirom.omnigears.preference.SystemCheckBoxPreference
+            android:key="lockscreen_notifications_force_expanded_view"
+            android:title="@string/force_expanded_view"
+            android:summary="@string/force_expanded_view_summary"
+            android:dependency="lockscreen_notifications_expanded_view"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+</PreferenceScreen>
