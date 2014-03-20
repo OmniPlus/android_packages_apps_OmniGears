@@ -37,7 +37,14 @@ import android.preference.PreferenceScreen;
 import android.preference.PreferenceCategory;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
-import android.util.Log;
+import android.text.TextUtils;
+
+import org.omnirom.omnigears.chameleonos.AppMultiSelectListPreference;
+import com.android.internal.util.omni.DeviceUtils;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MoreInterfaceSettings extends SettingsPreferenceFragment implements
         Preference.OnPreferenceChangeListener {
@@ -58,6 +65,8 @@ public class MoreInterfaceSettings extends SettingsPreferenceFragment implements
     public static Intent INTENT_OMNISWITCH_SETTINGS = new Intent(Intent.ACTION_MAIN)
             .setClassName(OMNISWITCH_PACKAGE_NAME, OMNISWITCH_PACKAGE_NAME + ".SettingsActivity");
 
+    private static final String PREF_INCLUDE_APP_CIRCLE_BAR_KEY = "app_circle_bar_included_apps";
+
     private CheckBoxPreference mRecentClearAll;
     private ListPreference mRecentClearAllPosition;
     private CheckBoxPreference mShowRecentsMemoryIndicator;
@@ -67,6 +76,8 @@ public class MoreInterfaceSettings extends SettingsPreferenceFragment implements
     private boolean mOmniSwitchInitCalled;
     private PreferenceCategory mOmniSwitchCategory;
 
+    private AppMultiSelectListPreference mIncludedAppCircleBar;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +85,11 @@ public class MoreInterfaceSettings extends SettingsPreferenceFragment implements
 
         PreferenceScreen prefSet = getPreferenceScreen();
         ContentResolver resolver = getActivity().getContentResolver();
+
+        mIncludedAppCircleBar = (AppMultiSelectListPreference) prefSet.findPreference(PREF_INCLUDE_APP_CIRCLE_BAR_KEY);
+        Set<String> includedApps = getIncludedApps();
+        if (includedApps != null) mIncludedAppCircleBar.setValues(includedApps);
+        mIncludedAppCircleBar.setOnPreferenceChangeListener(this);
 
         mRecentClearAll = (CheckBoxPreference) prefSet.findPreference(RECENT_MENU_CLEAR_ALL);
         mRecentClearAll.setChecked(Settings.System.getInt(resolver,
@@ -146,6 +162,8 @@ public class MoreInterfaceSettings extends SettingsPreferenceFragment implements
             String value = (String) objValue;
             Settings.System.putString(
                     resolver, Settings.System.RECENTS_MEMORY_INDICATOR_LOCATION, value);
+        } else if (preference == mIncludedAppCircleBar) {
+            storeIncludedApps((Set<String>) objValue);
         } else if (preference == mRecentsUseOmniSwitch) {
             boolean value = (Boolean) objValue;
 
@@ -185,5 +203,26 @@ public class MoreInterfaceSettings extends SettingsPreferenceFragment implements
         } catch (NameNotFoundException e) {
             return false;
         }
+    }
+
+    private Set<String> getIncludedApps() {
+        String included = Settings.System.getString(getActivity().getContentResolver(),
+                Settings.System.WHITELIST_APP_CIRCLE_BAR);
+        if (TextUtils.isEmpty(included)) {
+            return null;
+        }
+        return new HashSet<String>(Arrays.asList(included.split("\\|")));
+    }
+
+    private void storeIncludedApps(Set<String> values) {
+        StringBuilder builder = new StringBuilder();
+        String delimiter = "";
+        for (String value : values) {
+            builder.append(delimiter);
+            builder.append(value);
+            delimiter = "|";
+        }
+        Settings.System.putString(getActivity().getContentResolver(),
+                Settings.System.WHITELIST_APP_CIRCLE_BAR, builder.toString());
     }
 }
