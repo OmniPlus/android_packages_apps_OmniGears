@@ -37,6 +37,7 @@ import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 
+import org.omnirom.omnigears.preference.SystemCheckBoxPreference;
 import com.android.internal.util.omni.DeviceUtils;
 import com.android.settings.Utils;
 
@@ -55,6 +56,7 @@ public class BarsSettings extends SettingsPreferenceFragment implements
     private static final String NETWORK_TRAFFIC_PERIOD = "network_traffic_period";
     private static final String STATUS_BAR_NETWORK_ACTIVITY = "status_bar_network_activity";
     private static final String SOFT_BACK_KILL_APP = "soft_back_kill_app";
+    private static final String STATUSBAR_CARRIER_LOGO = "status_bar_carrier_logo";
     private static final String EMULATE_MENU_KEY = "emulate_menu_key";
 
     private CheckBoxPreference mStatusBarBrightnessControl;
@@ -68,6 +70,7 @@ public class BarsSettings extends SettingsPreferenceFragment implements
     private CheckBoxPreference mStatusBarNetworkActivity;
     private CheckBoxPreference mSoftBackKillApp;
     private CheckBoxPreference mEmulateMenuKey;
+    private SystemCheckBoxPreference mStatusbarLogo;
 
     private int mNetTrafficVal;
     private int MASK_UP;
@@ -104,6 +107,11 @@ public class BarsSettings extends SettingsPreferenceFragment implements
         mStatusBarNotifCount.setChecked(Settings.System.getInt(resolver,
                 Settings.System.STATUS_BAR_NOTIF_COUNT, 0) == 1);
         mStatusBarNotifCount.setOnPreferenceChangeListener(this);
+
+        mStatusbarLogo = (SystemCheckBoxPreference) findPreference(STATUSBAR_CARRIER_LOGO);
+        if (Utils.isWifiOnly(getActivity())) {
+            prefSet.removePreference(mStatusbarLogo);
+        }
 
         mQuickPulldown = (ListPreference) findPreference(QUICK_PULLDOWN);
         mSmartPulldown = (ListPreference) findPreference(SMART_PULLDOWN);

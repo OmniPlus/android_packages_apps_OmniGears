@@ -417,6 +417,10 @@
     <string name="icon_picker_sms">Messaging</string>
     <string name="icon_picker_twitter">Twitter</string>
 
+    <!-- Statusbar Carrier Logo -->
+    <string name="statusbar_carrier_logo_title">Carrier logo statusbar</string>
+    <string name="statusbar_carrier_logo_summary">Show logo based from carrier/provider</string>
+
     <string name="quick_settings_category_title">Quick settings</string>
 
     <!-- QuickSettings: Dynamic Row -->
